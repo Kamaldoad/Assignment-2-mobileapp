@@ -24,7 +24,7 @@ export default function CityTab({ city, link, info, image, setCurrentCity }: Cit
       <Text style={styles.infoText}>{info}</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, },
