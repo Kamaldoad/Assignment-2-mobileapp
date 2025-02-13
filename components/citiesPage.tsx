@@ -1,59 +1,34 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CityTab from '../components/citiesPage';
+import React, { useEffect } from 'react';
+import { View, Text, Button, StyleSheet, Linking, Image } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
-const Tab = createBottomTabNavigator();
-
-// Leftover from first attempts at changing header color based on city. Don't think its currently needed. -Daetan
-interface HomeScreenProps {
-  setCurrentCity: (city: string) => void;
+interface CityTabProps {
   city: string;
   link: string;
   info: string;
   image: any;
+  setCurrentCity: (city: string) => void;
 }
 
-export default function HomeScreen({ setCurrentCity }: HomeScreenProps) {
-
+export default function CityTab({ city, link, info, image, setCurrentCity }: CityTabProps) {
+  useFocusEffect(
+    React.useCallback(() => {
+      setCurrentCity(city);
+    }, [city])
+  );
   return (
-    <Tab.Navigator screenOptions={{ tabBarStyle: styles.container }}>
-      <Tab.Screen name="Calgary">
-        {() =>
-          <CityTab
-            city="Calgary"
-            link="https://www.calgary.ca/home.html"
-            info="Calgary is known for its beautiful parks and the Calgary Stampede."
-            image={require("../assets/calgary.jpg")}
-            setCurrentCity={setCurrentCity}
-          />
-        }
-      </Tab.Screen>
-      <Tab.Screen name="Edmonton">
-        {() =>
-          <CityTab
-            city="Edmonton"
-            link="https://www.edmonton.ca/"
-            info="Edmonton is famous for its large mall and vibrant arts scene."
-            image={require("../assets/Edmonton.jpg")}
-            setCurrentCity={setCurrentCity}
-          />
-        }
-      </Tab.Screen>
-    </Tab.Navigator>
+    <View style={styles.container}>
+      <Image source={image} style={styles.cityImage} />
+      <Text style={styles.cityTitle}>{city}</Text>
+      <Button title={`Go to ${city} Page`} onPress={() => Linking.openURL(link)} />
+      <Text style={styles.infoText}>{info}</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
-  },
-  title: {
-    fontSize: 24,
-    textAlign: 'center',
-    marginVertical: 20,
-  },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, },
+  cityTitle: { fontSize: 20, marginBottom: 10 },
+  infoText: { marginTop: 10, fontSize: 16, color: '#333', },
+  cityImage: { width: 400, height: 300, marginBottom: 20, textAlign: 'center' } // Add styles for the image
 });
