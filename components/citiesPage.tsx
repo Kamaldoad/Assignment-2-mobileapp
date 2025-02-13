@@ -1,59 +1,49 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CityTab from '../components/citiesPage';
-import { useFocusEffect } from '@react-navigation/native';
-
-const Tab = createBottomTabNavigator();
-
-// Leftover from first attempts at changing header color based on city. Don't think its currently needed. -Daetan
-interface HomeScreenProps {
-  setCurrentCity: (city: string) => void;
+import { View, Text, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+ 
+interface CityTabProps {
   city: string;
   link: string;
   info: string;
   image: any;
+  setCurrentCity: (city: string) => void;
 }
-
-export default function HomeScreen({ setCurrentCity }: HomeScreenProps) {
-
+ 
+const CityTab: React.FC<CityTabProps> = ({ city, link, info, image, }) => {
   return (
-    <Tab.Navigator screenOptions={{ tabBarStyle: styles.container }}>
-      <Tab.Screen name="Calgary">
-        {() =>
-          <CityTab
-            city="Calgary"
-            link="https://www.calgary.ca/home.html"
-            info="Calgary is known for its beautiful parks and the Calgary Stampede."
-            image={require("../assets/calgary.jpg")}
-            setCurrentCity={setCurrentCity}
-          />
-        }
-      </Tab.Screen>
-      <Tab.Screen name="Edmonton">
-        {() =>
-          <CityTab
-            city="Edmonton"
-            link="https://www.edmonton.ca/"
-            info="Edmonton is famous for its large mall and vibrant arts scene."
-            image={require("../assets/Edmonton.jpg")}
-            setCurrentCity={setCurrentCity}
-          />
-        }
-      </Tab.Screen>
-    </Tab.Navigator>
+    <View style={styles.container}>
+      <Text style={styles.cityName}>{city}</Text>
+      <Image source={image} style={styles.cityImage} />
+      <Text style={styles.cityInfo}>{info}</Text>
+      <TouchableOpacity onPress={() => Linking.openURL(link)}>
+        <Text style={styles.link}>{link}</Text>
+      </TouchableOpacity>
+    </View>
   );
-}
-
+};
+ 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
+    flex: 1,
+    padding: 16,
   },
-  title: {
+  cityName: {
     fontSize: 24,
-    textAlign: 'center',
-    marginVertical: 20,
+    fontWeight: 'bold',
+  },
+  cityImage: {
+    width: '100%',
+    height: 200,
+    marginVertical: 16,
+  },
+  cityInfo: {
+    fontSize: 16,
+    marginBottom: 16,
+  },
+  link: {
+    color: 'blue',
+    textDecorationLine: 'underline',
   },
 });
+ 
+export default CityTab;
