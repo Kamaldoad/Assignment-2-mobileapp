@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, } from 'react-native';
 import credentials from "../credentials.json";
 import { NavigationProp } from '@react-navigation/native';
 
